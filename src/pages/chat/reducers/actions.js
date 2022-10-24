@@ -1,42 +1,19 @@
-import {getDataSuccess, getDataHistorySuccess, getData} from './actionBase';
+import {
+  getDataSuccess,
+  getDataHistorySuccess,
+  getData,
+  getDataDeviceTokenSuccess,
+} from './actionBase';
 import MessageUseCase from '../../../domains/usecases/message_usecase';
+import UserUseCase from '../../../domains/usecases/user_usecase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export async function createChat({phoneString, fullNameString, contentString}) {
-  const phoneCurrent = await AsyncStorage.getItem('@phone');
-  console.log('phoneCurrent', phoneCurrent);
-  console.log('fullNameString', fullNameString);
-  console.log('contentString', contentString);
-  const dataResult = await MessageUseCase.createMessageChat({
-    fullNameString: fullNameString,
-    senderPhoneString: phoneCurrent,
-    phoneString: phoneString,
-    content: contentString,
-  });
-  // console.log('createChat', dataResult);
-  return dataResult;
-
-  // return async dispatch => {
-  //   const phoneCurrent = await AsyncStorage.getItem('@phone');
-  //   // dispatch(getData());
-  //   console.log('phoneCurrent', phoneCurrent);
-
-  //   // const dataResult = await MessageUseCase.createMessageChat({
-  //   //   fullNameString: fullNameString,
-  //   //   senderPhoneString: phoneCurrent,
-  //   //   phoneString: phoneString,
-  //   //   content: contentString,
-  //   // });
-  //   // console.log('createChat', dataResult);
-  //   // dispatch(getDataSuccess({data: {}}));
-  // };
-}
 
 export function sendMessage({
   historyId,
   phoneString,
   fullNameString,
   messageString,
+  deviceTokenString,
 }) {
   return async dispatch => {
     const phoneCurrent = await AsyncStorage.getItem('@phone');
@@ -47,7 +24,9 @@ export function sendMessage({
       phoneString: phoneString,
       messageString: messageString,
       historyId: historyId,
+      deviceTokenString: deviceTokenString,
     });
+    console.log('dataxxxx', dataResult);
     if (dataResult !== null) {
       dispatch(
         getDataHistorySuccess({
@@ -57,26 +36,40 @@ export function sendMessage({
     }
   };
 }
-export function onMessages({phoneString}) {
+export function onMessages({phoneString, senderPhoneString}) {
   return async dispatch => {
     dispatch(getData());
-    const phoneCurrent = await AsyncStorage.getItem('@phone');
+    console.log('onMessages-senderPhoneString', senderPhoneString);
+    console.log('onMessages-phoneString', phoneString);
+
     const dataHistory = await MessageUseCase.getOneHistory({
-      senderPhoneString: phoneCurrent,
+      senderPhoneString: senderPhoneString,
       phoneString: phoneString,
     });
-    const historyId = Object.keys(dataHistory)[0];
-    console.log('onMessages-dataHistory', historyId);
-    dispatch(
-      getDataHistorySuccess({
-        data: historyId,
-      }),
-    );
-    MessageUseCase.onMessageChat({
-      historyId: historyId,
-      onMessageChange: data => {
-        dispatch(getDataSuccess({data: data}));
-      },
+    console.log('onMessages-dataHistory', dataHistory);
+    if (dataHistory !== null) {
+      const historyId = Object.keys(dataHistory)[0];
+      console.log('onMessages-dataHistory', historyId);
+      dispatch(
+        getDataHistorySuccess({
+          data: historyId,
+        }),
+      );
+      MessageUseCase.onMessageChat({
+        historyId: historyId,
+        onMessageChange: data => {
+          dispatch(getDataSuccess({data: data}));
+        },
+      });
+    }
+  };
+}
+export function getOneUserByPhone({phoneString}) {
+  return async dispatch => {
+    dispatch(getData());
+    const data = await UserUseCase.getOneUserByPhone({
+      phoneString: phoneString,
     });
+    dispatch(getDataDeviceTokenSuccess({data: data.deviceToken}));
   };
 }

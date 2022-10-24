@@ -20,11 +20,11 @@ const HistoryScreen = ({navigation}) => {
   }, [navigation]);
 
   const onTapItem = async ({historyId, data}) => {
-    console.log(data);
     const currentPhone = await AsyncStorage.getItem('@phone');
     navigation.push('ChatScreen', {
       fullName: data.fullName,
       phone: data.phone,
+      senderPhone: data.senderPhone,
       currentPhone: currentPhone,
       historyId: historyId,
     });
@@ -37,6 +37,7 @@ const HistoryScreen = ({navigation}) => {
           <ItemHistory
             item={item}
             onPress={(historyId, data) => {
+              console.log('log', historyId);
               console.log('log', data);
               onTapItem({historyId: historyId, data: data});
             }}

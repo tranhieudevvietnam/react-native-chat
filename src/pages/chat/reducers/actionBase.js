@@ -3,6 +3,7 @@ import {
   FETCHING_DATA_SUCCESS,
   FETCHING_DATA_FAILURE,
   FETCHING_DATA_HISTORY_SUCCESS,
+  FETCHING_DATA_DEVICE_TOKEN_SUCCESS,
 } from './constants';
 //#region FETCHING function
 export function getData() {
@@ -15,6 +16,12 @@ export function getData() {
 export function getDataSuccess({data}) {
   return {
     type: FETCHING_DATA_SUCCESS,
+    data: data,
+  };
+}
+export function getDataDeviceTokenSuccess({data}) {
+  return {
+    type: FETCHING_DATA_DEVICE_TOKEN_SUCCESS,
     data: data,
   };
 }

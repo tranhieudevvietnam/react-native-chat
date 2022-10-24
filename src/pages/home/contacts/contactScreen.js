@@ -28,8 +28,9 @@ const ContactScreen = ({navigation}) => {
     navigation.push('ChatScreen', {
       fullName: data.fullName,
       phone: data.phone,
+      senderPhone: data.senderPhone,
       currentPhone: currentPhone,
-      historyId: undefined,
+      historyId: null,
     });
   };
 

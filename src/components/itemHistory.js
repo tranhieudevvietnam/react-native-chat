@@ -28,9 +28,7 @@ const ItemHistory = ({item = historyModel, onPress}) => {
             </Text>
           </View>
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.time}>
-              {convertDateTime({dateTime: itemData.time, typeConvert: 'HH:mm'})}
-            </Text>
+            <Text style={styles.time}>{itemData.time}</Text>
             <View style={styles.containerCount}>
               <Text style={styles.textTime}>{10}</Text>
             </View>

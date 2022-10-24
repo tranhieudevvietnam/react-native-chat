@@ -20,9 +20,7 @@ export function getDataSuccess({data}) {
 export function getDataFailure({messageErrorString}) {
   return {
     type: FETCHING_DATA_FAILURE,
-    data: {
-      message: messageErrorString,
-    },
+    data: messageErrorString,
   };
 }
 //#endregion

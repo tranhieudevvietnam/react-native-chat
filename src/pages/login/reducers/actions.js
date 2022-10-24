@@ -4,7 +4,12 @@ import {getData, getDataSuccess, getDataFailure} from './actionBase';
 export function createUser({fullName = '', phone = ''}) {
   return async dispatch => {
     dispatch(getData());
-    if (phone.length > 0) {
+    if (
+      phone !== null &&
+      phone?.length > 0 &&
+      fullName !== null &&
+      fullName.length > 0
+    ) {
       try {
         // await new Promise((resolve, reject) => {
         //   setTimeout(() => {
@@ -33,6 +38,7 @@ export function createUser({fullName = '', phone = ''}) {
         throw error;
       }
     } else {
+      console.log('xxxxxPhone', phone);
       dispatch(
         getDataFailure({messageErrorString: 'Kiểm tra lại thông tin username'}),
       );

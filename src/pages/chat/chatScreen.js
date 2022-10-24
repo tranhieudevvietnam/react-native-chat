@@ -17,14 +17,15 @@ import ItemMessageTheir from './components/itemMessageTheir';
 import InputMessage from './components/inputMessage';
 import ViewCustom from '../../components/viewCustom';
 import {useSelector, useDispatch} from 'react-redux';
-import {onMessages} from './reducers/actions';
+import {onMessages, getOneUserByPhone} from './reducers/actions';
 import ItemMessageMine from './components/itemMessageMine';
 
 const ChatScreen = ({navigation, route}) => {
-  const {fullName, phone, currentPhone, historyId} = route.params;
+  const {fullName, phone, senderPhone, currentPhone, historyId} = route.params;
   const stateChat = useSelector(state => state.chatReducer);
-  const refContainer = React.useRef();
   const dispatch = useDispatch();
+
+  const refContainer = React.useRef();
 
   const [keyboardStatus, setKeyboardStatus] = React.useState(undefined);
 
@@ -44,21 +45,29 @@ const ChatScreen = ({navigation, route}) => {
     };
   }, []);
 
-  React.useEffect(() => {
-    if (stateChat.listMessages.length > 0) {
-      // const count = stateChat.listMessages.length - 1;
-      // console.log('stateChat.listMessages: ', stateChat.listMessages.length);
-      // console.log('countScroll: ', countScroll);
-      refContainer.current.scrollToIndex({
-        animated: true,
-        index: 0,
-      });
-    }
-  }, [stateChat, keyboardStatus]);
+  // React.useEffect(() => {
+  //   if (stateChat.listMessages.length > 0) {
+  //     // const count = stateChat.listMessages.length - 1;
+  //     // console.log('stateChat.listMessages: ', stateChat.listMessages.length);
+  //     // console.log('countScroll: ', countScroll);
+  //     refContainer.current.scrollToIndex({
+  //       animated: true,
+  //       index: 0,
+  //     });
+  //   }
+  // }, [stateChat, keyboardStatus]);
 
   React.useEffect(() => {
-    dispatch(onMessages({phoneString: phone}));
-  }, [dispatch, phone]);
+    console.log('stateChat.historyId', stateChat.historyId);
+
+    dispatch(getOneUserByPhone({phoneString: phone}));
+    dispatch(
+      onMessages({
+        phoneString: phone,
+        senderPhoneString: senderPhone ?? currentPhone,
+      }),
+    );
+  }, [dispatch, phone, senderPhone, currentPhone, stateChat.historyId]);
 
   return (
     <ViewCustom
@@ -116,6 +125,7 @@ const ChatScreen = ({navigation, route}) => {
               fullNameString={fullName}
               phoneString={phone}
               historyId={historyId ?? stateChat.historyId}
+              deviceTokenString={stateChat.deviceToken}
             />
           </SafeAreaView>
         </View>

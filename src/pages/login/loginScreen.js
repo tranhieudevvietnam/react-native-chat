@@ -38,6 +38,9 @@ class LoginScreen extends React.Component {
   async componentDidMount() {
     const phoneLocal = await AsyncStorage.getItem('@phone');
     this.state.phone = this.setState({phone: phoneLocal});
+    const fullNameLocal = await AsyncStorage.getItem('@fullName');
+    this.state.fullName = this.setState({fullName: fullNameLocal});
+
     // console.log('componentDidMount', phoneLocal);
     requestUserPermission();
   }
@@ -50,9 +53,8 @@ class LoginScreen extends React.Component {
 
   _checkEventActions() {
     // console.log('this.props.isFetched ', this.props.isFetched);
-    // console.log('this.props.error  ', this.props.error);
     if (this.props.error === true) {
-      toastMessage(this.props.data.message);
+      toastMessage(this.props.messageError);
     }
     if (this.props.error === false && this.props.isFetched === true) {
       this.props.navigation.dispatch(StackActions.replace('HomeScreen'));
@@ -161,6 +163,7 @@ const mapStateToProps = state => ({
   isFetched: state.loginReducer.isFetched,
   error: state.loginReducer.error,
   data: state.loginReducer.loginData,
+  messageError: state.loginReducer.messageError,
 });
 
 const mapDispatchToProps = {

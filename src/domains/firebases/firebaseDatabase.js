@@ -5,34 +5,9 @@ import {
   TABLE_MESSAGE,
   TABLE_HISTORY,
 } from '../../constants/constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import {sendNotification} from '../services/messageService';
 
-// async function pushData({pathString, dataJson}) {
-//   await firebase.database().ref(pathString).push(dataJson);
-//   console.log('pushData updated!');
-// }
-// async function setData({pathString, dataJson}) {
-//   try {
-//     // console.log('setData', dataJson);
-//     await firebase.database().ref(pathString).set(dataJson);
-//     let data = await onceData({pathString: pathString});
-//     // console.log('pushData updated!', data);
-//     return data;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-// const onceData = async ({pathString}) => {
-//   console.log('pathString', pathString);
-//   const dataResult = await firebase.database().ref(pathString).once('value');
-//   return dataResult.val();
-// };
-// const getAllData = async ({pathString, currentPhone}) => {
-//   console.log('getAllData pathString: ', pathString);
-//   const dataResult = await firebase.database().ref(pathString).once('value');
-//   return dataResult.val();
-// };
 const onMessages = ({historyId, onUpdateMessage}) => {
   const pathString = TABLE_MESSAGE;
 
@@ -55,9 +30,8 @@ const onMessages = ({historyId, onUpdateMessage}) => {
   }
 };
 
-const createUser = async ({fullNameString, phoneString}) => {
+const createUser = async ({fullNameString, phoneString, deviceTokenString}) => {
   const pathString = TABLE_USER;
-  const deviceTokenString = await AsyncStorage.getItem('@deviceToken');
   await firebase.database().ref(pathString).child(phoneString).set({
     phone: phoneString,
     fullName: fullNameString,
@@ -68,7 +42,7 @@ const createUser = async ({fullNameString, phoneString}) => {
     .ref(pathString)
     .child(phoneString)
     .once('value');
-  console.log('createUser updated!', data.val());
+  // console.log('createUser updated!', data.val());
   return data.val();
 };
 
@@ -83,11 +57,10 @@ const getOneUser = async ({phoneString}) => {
   return data.val();
 };
 
-const getAllUser = async () => {
+const getAllUser = async ({currentPhone}) => {
   const pathString = TABLE_USER;
   const data = await firebase.database().ref(pathString).once('value');
   const listData = Object.values(data.val());
-  const currentPhone = await AsyncStorage.getItem('@phone');
   const listUsers = [];
   listData.forEach(item => {
     if (item.phone !== currentPhone) {
@@ -97,18 +70,37 @@ const getAllUser = async () => {
   return listUsers;
 };
 
-const getAllHistory = async () => {
+const getAllHistory = async ({currentPhone}) => {
   const pathString = TABLE_HISTORY;
-  const currentPhone = await AsyncStorage.getItem('@phone');
   const dataCurrent = await firebase
     .database()
     .ref(pathString)
     .child(currentPhone)
     .once('value');
-  const listDataCurrent = Object.values(dataCurrent.val());
-  const listHistory = [];
+
+  const data = await firebase.database().ref(pathString).once('value');
+
+  // console.log('getAllHistory:', data.val());
   // console.log('getAllHistory - current:', dataCurrent.val());
   // console.log('getAllHistory - current:', listDataCurrent);
+
+  // Object.values(data.val()).forEach(item => {
+  //   console.log('item', item);
+  // });
+
+  const listDataCurrent =
+    dataCurrent.val() !== null ? Object.values(dataCurrent.val()) : [];
+  const listHistory = [];
+
+  if (data.val() !== null) {
+    Object.values(data.val()).forEach(item => {
+      console.log('item', item[currentPhone]);
+      if (item[currentPhone] !== undefined) {
+        listHistory.push(item[currentPhone]);
+      }
+    });
+  }
+
   listDataCurrent.forEach(item => {
     if (item.phone !== currentPhone) {
       listHistory.push(item);
@@ -120,10 +112,27 @@ const getAllHistory = async () => {
 const createHistory = async ({
   fullNameString,
   phoneString,
+  senderFullName,
   senderPhoneString,
   contentString,
+  deviceTokenString,
 }) => {
   var todayDate = moment();
+
+  const dataHistoryCurrent = await firebase
+    .database()
+    .ref(pathString)
+    .child(senderPhoneString)
+    .child(phoneString)
+    .once('value');
+  console.log('dataHistoryCurrent', dataHistoryCurrent.val());
+  const dataHistoryCurrent2 = await firebase
+    .database()
+    .ref(pathString)
+    .child(phoneString)
+    .child(senderPhoneString)
+    .once('value');
+  console.log('dataHistoryCurrent2', dataHistoryCurrent2.val());
 
   const pathString = TABLE_HISTORY;
   const data = await firebase
@@ -146,31 +155,57 @@ const createHistory = async ({
     phoneString: phoneString,
     senderPhoneString: senderPhoneString,
     messageString: contentString,
+    deviceTokenString: deviceTokenString,
+    senderFullName: senderFullName,
   });
   return data.key;
 };
 
 const getOneHistoryByPhone = async ({phoneString, senderPhoneString}) => {
   const pathString = TABLE_HISTORY;
-  const data = await firebase
+  const dataCurrent = await firebase
     .database()
     .ref(pathString)
     .child(senderPhoneString)
     .child(phoneString)
     .once('value');
-  console.log('getOneHistoryByPhone', data.val());
-  return data.val();
+
+  const data = await firebase
+    .database()
+    .ref(pathString)
+    .child(phoneString)
+    .child(senderPhoneString)
+    .once('value');
+
+  console.log('getOneHistoryByPhone - phoneString:', phoneString);
+  console.log('getOneHistoryByPhone - senderPhoneString:', senderPhoneString);
+  // console.log('getOneHistoryByPhone - data:', data.val());
+  // console.log('getOneHistoryByPhone -  dataCurrent:', dataCurrent.val());
+  if (dataCurrent.val() !== null) {
+    return dataCurrent.val();
+  } else {
+    return data.val();
+  }
 };
 
 const sendMessage = async ({
   historyId,
   fullNameString,
+  senderFullName,
   senderPhoneString,
   phoneString,
   messageString,
+  deviceTokenString,
 }) => {
   var todayDate = moment();
   const pathString = TABLE_MESSAGE;
+
+  sendNotification({
+    deviceTokenString: deviceTokenString,
+    messageString: messageString,
+    fullNameString: senderFullName,
+  });
+
   await firebase
     .database()
     .ref(pathString)

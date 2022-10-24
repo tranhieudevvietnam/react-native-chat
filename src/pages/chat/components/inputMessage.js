@@ -16,11 +16,14 @@ import {
 import {sendMessage} from '../reducers/actions';
 import {useDispatch} from 'react-redux';
 
-const InputMessage = ({historyId, phoneString, fullNameString}) => {
+const InputMessage = ({
+  historyId,
+  phoneString,
+  fullNameString,
+  deviceTokenString,
+}) => {
   const [valueMessage, onChangeText] = React.useState('');
   const dispatch = useDispatch();
-
-  React.useEffect(() => {});
 
   const onSendMessage = async () => {
     dispatch(
@@ -29,6 +32,7 @@ const InputMessage = ({historyId, phoneString, fullNameString}) => {
         phoneString: phoneString,
         fullNameString: fullNameString,
         messageString: valueMessage,
+        deviceTokenString: deviceTokenString,
       }),
     );
     onChangeText('');

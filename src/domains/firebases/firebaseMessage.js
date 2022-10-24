@@ -10,23 +10,5 @@ async function getDeviceToken() {
   // Save the token in data local
   await AsyncStorage.setItem('@deviceToken', token);
 }
-const sendNotification = async ({data}) => {
-  // await admin.messaging().sendToDevice(
-  //   [], // device fcm tokens...
-  //   {
-  //     data: {
-  //       // owner: JSON.stringify(owner),
-  //       // user: JSON.stringify(user),
-  //       // picture: JSON.stringify(picture),
-  //     },
-  //   },
-  //   {
-  //     // Required for background/quit data-only messages on iOS
-  //     contentAvailable: true,
-  //     // Required for background/quit data-only messages on Android
-  //     priority: 'high',
-  //   },
-  // );
-};
 
-export {getDeviceToken, sendNotification};
+export {getDeviceToken};

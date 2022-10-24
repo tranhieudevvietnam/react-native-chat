@@ -6,6 +6,7 @@ import {
   getAllHistory,
 } from '../firebases/firebaseDatabase';
 import {TABLE_MESSAGE} from '../../constants/constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function sendMessageChat({
   fullNameString,
@@ -13,8 +14,10 @@ async function sendMessageChat({
   phoneString,
   messageString,
   historyId,
+  deviceTokenString,
 }) {
   let historyIdResult = historyId;
+  const senderFullName = await AsyncStorage.getItem('@fullName');
 
   if (historyId === undefined) {
     const dataHistory = await getOneHistoryByPhone({
@@ -26,17 +29,20 @@ async function sendMessageChat({
       createHistory({
         fullNameString: fullNameString,
         senderPhoneString: senderPhoneString,
+        senderFullName: senderFullName,
         phoneString: phoneString,
         contentString: messageString,
       });
     }
   } else {
     await sendMessage({
+      deviceTokenString: deviceTokenString,
       historyId: historyId,
       fullNameString: fullNameString,
       senderPhoneString: senderPhoneString,
       phoneString: phoneString,
       messageString: messageString,
+      senderFullName: senderFullName,
     });
   }
   return historyIdResult;
@@ -61,7 +67,8 @@ async function getOneHistory({phoneString, senderPhoneString}) {
   return dataHistory;
 }
 async function getAllHistories() {
-  const dataHistory = await getAllHistory();
+  const currentPhone = await AsyncStorage.getItem('@phone');
+  const dataHistory = await getAllHistory({currentPhone: currentPhone});
   return dataHistory;
 }
 

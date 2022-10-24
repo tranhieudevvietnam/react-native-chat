@@ -3,6 +3,7 @@ import {
   FETCHING_DATA_SUCCESS,
   FETCHING_DATA_HISTORY_SUCCESS,
   FETCHING_DATA_FAILURE,
+  FETCHING_DATA_DEVICE_TOKEN_SUCCESS,
 } from './constants';
 
 const initialState = {
@@ -29,14 +30,25 @@ function dataReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
+        error: false,
         isFetched: true,
         listMessages: state.listMessages,
+      };
+    case FETCHING_DATA_DEVICE_TOKEN_SUCCESS:
+      console.log(FETCHING_DATA_DEVICE_TOKEN_SUCCESS, action.data);
+      return {
+        ...state,
+        isFetching: false,
+        isFetched: true,
+        error: false,
+        deviceToken: action.data,
       };
     case FETCHING_DATA_HISTORY_SUCCESS:
       console.log(FETCHING_DATA_HISTORY_SUCCESS, action.data);
       return {
         ...state,
         isFetching: false,
+        error: false,
         isFetched: true,
         historyId: action.data,
       };

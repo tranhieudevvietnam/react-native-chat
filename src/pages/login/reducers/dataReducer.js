@@ -16,6 +16,8 @@ function dataReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: true,
+        error: false,
+        messageError: '',
       };
     case FETCHING_DATA_SUCCESS:
       // console.log(FETCHING_DATA_SUCCESS, action.data);
@@ -23,14 +25,18 @@ function dataReducer(state = initialState, action) {
         ...state,
         isFetching: false,
         isFetched: true,
+        error: false,
+        messageError: '',
         loginData: action.data,
       };
+
     case FETCHING_DATA_FAILURE:
+      console.log(FETCHING_DATA_FAILURE, action.data);
       return {
         ...state,
         isFetching: false,
         error: true,
-        loginData: action.data,
+        messageError: action.data,
       };
     default:
       return state;
