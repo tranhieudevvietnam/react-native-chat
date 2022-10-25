@@ -8,11 +8,11 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 const STATUSBAR_HEIGHT = getStatusBarHeight();
 
 //child is function return widget child
-const AppBar = ({child}) => {
+const AppBar = props => {
   return (
     <View style={styles.containerAppBar}>
       <StatusBarCustom backgroundColor="#0000" barStyle="light-content" />
-      {child.call()}
+      {props.children}
     </View>
   );
 };

@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const HistoryScreen = ({navigation}) => {
   const stateHistory = useSelector(state => state.historyReducer);
   const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
 
   React.useEffect(() => {
     dispatch(getAllHistory());
@@ -29,16 +30,27 @@ const HistoryScreen = ({navigation}) => {
       historyId: historyId,
     });
   };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+      setRefreshing(false);
+      dispatch(getAllHistory());
+    });
+  }, [dispatch]);
+
   return (
     <View style={styles.containerListView}>
       <FlatList
         data={stateHistory.listData}
+        onRefresh={() => onRefresh()}
+        refreshing={refreshing}
         renderItem={({item}) => (
           <ItemHistory
             item={item}
             onPress={(historyId, data) => {
-              console.log('log', historyId);
-              console.log('log', data);
+              console.log('ItemHistory', historyId);
+              console.log('ItemHistory', data);
               onTapItem({historyId: historyId, data: data});
             }}
           />
@@ -51,6 +63,9 @@ const HistoryScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   containerListView: {
     margin: 10,
+    flex: 1,
+  },
+  scrollView: {
     flex: 1,
   },
 });

@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ContactScreen = ({navigation}) => {
   const stateContact = useSelector(state => state.contactReducer);
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const dispatch = useDispatch();
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,10 +36,19 @@ const ContactScreen = ({navigation}) => {
     });
   };
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+      setRefreshing(false);
+      dispatch(getAllUsers());
+    });
+  }, [dispatch]);
   return (
     <View style={styles.containerListView}>
       <FlatList
         data={stateContact.listContacts}
+        onRefresh={() => onRefresh()}
+        refreshing={refreshing}
         renderItem={({item}) => (
           <ItemContact
             item={item}

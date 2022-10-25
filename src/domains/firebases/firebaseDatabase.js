@@ -94,7 +94,6 @@ const getAllHistory = async ({currentPhone}) => {
 
   if (data.val() !== null) {
     Object.values(data.val()).forEach(item => {
-      console.log('item', item[currentPhone]);
       if (item[currentPhone] !== undefined) {
         listHistory.push(item[currentPhone]);
       }
@@ -177,8 +176,8 @@ const getOneHistoryByPhone = async ({phoneString, senderPhoneString}) => {
     .child(senderPhoneString)
     .once('value');
 
-  console.log('getOneHistoryByPhone - phoneString:', phoneString);
-  console.log('getOneHistoryByPhone - senderPhoneString:', senderPhoneString);
+  // console.log('getOneHistoryByPhone - phoneString:', phoneString);
+  // console.log('getOneHistoryByPhone - senderPhoneString:', senderPhoneString);
   // console.log('getOneHistoryByPhone - data:', data.val());
   // console.log('getOneHistoryByPhone -  dataCurrent:', dataCurrent.val());
   if (dataCurrent.val() !== null) {

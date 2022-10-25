@@ -35,7 +35,7 @@ function dataReducer(state = initialState, action) {
         listMessages: state.listMessages,
       };
     case FETCHING_DATA_DEVICE_TOKEN_SUCCESS:
-      console.log(FETCHING_DATA_DEVICE_TOKEN_SUCCESS, action.data);
+      // console.log(FETCHING_DATA_DEVICE_TOKEN_SUCCESS, action.data);
       return {
         ...state,
         isFetching: false,
@@ -44,7 +44,7 @@ function dataReducer(state = initialState, action) {
         deviceToken: action.data,
       };
     case FETCHING_DATA_HISTORY_SUCCESS:
-      console.log(FETCHING_DATA_HISTORY_SUCCESS, action.data);
+      // console.log(FETCHING_DATA_HISTORY_SUCCESS, action.data);
       return {
         ...state,
         isFetching: false,

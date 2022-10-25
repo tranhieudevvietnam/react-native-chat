@@ -11,27 +11,11 @@ platform :ios, '11.0'
 target 'chat_firebase' do
 
 
-  permissions_path = '../node_modules/react-native-permissions/ios'
-  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
-  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
-  pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
-
-  pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
-  pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral"
-  pod 'Permission-Calendars', :path => "#{permissions_path}/Calendars"
-  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
-  pod 'Permission-FaceID', :path => "#{permissions_path}/FaceID"
-  pod 'Permission-LocationAccuracy', :path => "#{permissions_path}/LocationAccuracy"
-  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
-  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
-  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary"
-  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone"
-  pod 'Permission-Motion', :path => "#{permissions_path}/Motion"
-  pod 'Permission-Reminders', :path => "#{permissions_path}/Reminders"
-  pod 'Permission-Siri', :path => "#{permissions_path}/Siri"
-  pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
-  pod 'Permission-StoreKit', :path => "#{permissions_path}/StoreKit"
+  # permissions_path = '../node_modules/react-native-permissions/ios'
+  # pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  # pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+  # pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+  # pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
 
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
@@ -67,17 +51,17 @@ target 'chat_firebase' do
     react_native_post_install(installer)
 
     # Convert all permission pods into static libraries
-    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+    # Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
 
-    installer.pod_targets.each do |pod|
-      if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
-        def pod.build_type;
-          # Uncomment the line corresponding to your CocoaPods version
-          Pod::BuildType.static_library # >= 1.9
-          # Pod::Target::BuildType.static_library # < 1.9
-        end
-      end
-    end
+    # installer.pod_targets.each do |pod|
+    #   if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+    #     def pod.build_type;
+    #       # Uncomment the line corresponding to your CocoaPods version
+    #       Pod::BuildType.static_library # >= 1.9
+    #       # Pod::Target::BuildType.static_library # < 1.9
+    #     end
+    #   end
+    # end
 
 
 

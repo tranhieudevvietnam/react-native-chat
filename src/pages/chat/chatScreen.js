@@ -45,53 +45,53 @@ const ChatScreen = ({navigation, route}) => {
     };
   }, []);
 
-  // React.useEffect(() => {
-  //   if (stateChat.listMessages.length > 0) {
-  //     // const count = stateChat.listMessages.length - 1;
-  //     // console.log('stateChat.listMessages: ', stateChat.listMessages.length);
-  //     // console.log('countScroll: ', countScroll);
-  //     refContainer.current.scrollToIndex({
-  //       animated: true,
-  //       index: 0,
-  //     });
-  //   }
-  // }, [stateChat, keyboardStatus]);
+  React.useEffect(() => {
+    if (stateChat.listMessages.length > 0) {
+      // const count = stateChat.listMessages.length - 1;
+      // console.log('stateChat.listMessages: ', stateChat.listMessages.length);
+      // console.log('countScroll: ', countScroll);
+      refContainer.current.scrollToIndex({
+        animated: true,
+        index: 0,
+      });
+    }
+  }, [stateChat, keyboardStatus]);
 
   React.useEffect(() => {
     console.log('stateChat.historyId', stateChat.historyId);
-
     dispatch(getOneUserByPhone({phoneString: phone}));
+  }, [dispatch, phone, stateChat.historyId]);
+
+  React.useEffect(() => {
     dispatch(
       onMessages({
         phoneString: phone,
         senderPhoneString: senderPhone ?? currentPhone,
       }),
     );
-  }, [dispatch, phone, senderPhone, currentPhone, stateChat.historyId]);
+  }, [dispatch, phone, currentPhone, senderPhone, stateChat.deviceToken]);
 
   return (
     <ViewCustom
       child={
         <View style={styles.container}>
-          <AppBar
-            child={() => (
-              <View style={styles.containerAppBar}>
-                <TouchableOpacity
-                  style={styles.touchButtonBack}
-                  onPress={() => navigation.goBack()}>
-                  <Image
-                    source={require('../../../assets/icons/icon_back.png')}
-                    style={styles.iconBack}
-                  />
-                </TouchableOpacity>
-                <Avatar style={{marginRight: 10, width: 42, height: 42}} />
-                <View>
-                  <Text style={styles.textTitle}>{fullName}</Text>
-                  <Text style={styles.textSub}>{phone}</Text>
-                </View>
+          <AppBar>
+            <View style={styles.containerAppBar}>
+              <TouchableOpacity
+                style={styles.touchButtonBack}
+                onPress={() => navigation.goBack()}>
+                <Image
+                  source={require('../../../assets/icons/icon_back.png')}
+                  style={styles.iconBack}
+                />
+              </TouchableOpacity>
+              <Avatar style={{marginRight: 10, width: 42, height: 42}} />
+              <View>
+                <Text style={styles.textTitle}>{fullName}</Text>
+                <Text style={styles.textSub}>{phone}</Text>
               </View>
-            )}
-          />
+            </View>
+          </AppBar>
           <SafeAreaView style={{flex: 1}}>
             <FlatList
               style={{flex: 1, paddingHorizontal: 10, marginBottom: 30}}

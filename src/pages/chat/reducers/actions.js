@@ -39,17 +39,15 @@ export function sendMessage({
 export function onMessages({phoneString, senderPhoneString}) {
   return async dispatch => {
     dispatch(getData());
-    console.log('onMessages-senderPhoneString', senderPhoneString);
-    console.log('onMessages-phoneString', phoneString);
+    // console.log('onMessages-senderPhoneString', senderPhoneString);
+    // console.log('onMessages-phoneString', phoneString);
 
     const dataHistory = await MessageUseCase.getOneHistory({
       senderPhoneString: senderPhoneString,
       phoneString: phoneString,
     });
-    console.log('onMessages-dataHistory', dataHistory);
     if (dataHistory !== null) {
       const historyId = Object.keys(dataHistory)[0];
-      console.log('onMessages-dataHistory', historyId);
       dispatch(
         getDataHistorySuccess({
           data: historyId,

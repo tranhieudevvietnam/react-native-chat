@@ -4,9 +4,8 @@ import {View, StyleSheet, Text, Image} from 'react-native';
 import Avatar from '../../components/avatar';
 import AppBar from '../../components/appBar';
 import BottomTabNavigation from './bottomTabNavigation';
-import {Colors} from 'react-native-paper';
 import {ColorWhile} from '../../constants/color';
-import {NavigationContainer} from '@react-navigation/native';
+
 // const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
@@ -19,20 +18,18 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <AppBar
-        child={() => (
-          <View style={styles.containerAppBar}>
-            <View style={styles.containerRow}>
-              <Image
-                source={require('../../../assets/icons/icon_menu.png')}
-                style={styles.iconMenu}
-              />
-              <Text style={styles.titleAppBar}>Chat Firebase</Text>
-              <Avatar style={{width: 35, height: 35}} />
-            </View>
+      <AppBar>
+        <View style={styles.containerAppBar}>
+          <View style={styles.containerRow}>
+            <Image
+              source={require('../../../assets/icons/icon_menu.png')}
+              style={styles.iconMenu}
+            />
+            <Text style={styles.titleAppBar}>Chat Firebase</Text>
+            <Avatar style={{width: 35, height: 35}} />
           </View>
-        )}
-      />
+        </View>
+      </AppBar>
       <BottomTabNavigation />
     </View>
   );

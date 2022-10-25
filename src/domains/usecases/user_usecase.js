@@ -34,7 +34,7 @@ async function getOneUserByPhone({phoneString}) {
   const resultOneUser = await getOneUser({
     phoneString: phoneString,
   });
-  console.log('getOneUserCurrent', resultOneUser);
+  // console.log('getOneUserCurrent', resultOneUser);
   return resultOneUser;
 }
 
