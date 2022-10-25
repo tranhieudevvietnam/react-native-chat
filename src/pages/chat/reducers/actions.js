@@ -67,7 +67,7 @@ export function getOneUserByPhone({phoneString}) {
     const data = await UserUseCase.getOneUserByPhone({
       phoneString: phoneString,
     });
-    console.log('getOneUserByPhone', data);
+    // console.log('getOneUserByPhone', data);
     dispatch(getDataDeviceTokenSuccess({data: data.deviceToken}));
   };
 }

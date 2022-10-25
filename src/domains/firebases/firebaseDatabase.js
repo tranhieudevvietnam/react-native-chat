@@ -59,7 +59,12 @@ const getOneUser = async ({phoneString}) => {
 
 const getAllUser = async ({currentPhone}) => {
   const pathString = TABLE_USER;
-  const data = await firebase.database().ref(pathString).once('value');
+  console.log('currentPhone', currentPhone);
+  const data = await firebase
+    .database()
+    .ref(pathString)
+    .orderByChild('phone')
+    .once('value');
   const listData = Object.values(data.val());
   const listUsers = [];
   listData.forEach(item => {
