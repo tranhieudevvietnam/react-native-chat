@@ -58,9 +58,9 @@ const ChatScreen = ({navigation, route}) => {
   }, [stateChat, keyboardStatus]);
 
   React.useEffect(() => {
-    console.log('stateChat.historyId', stateChat.historyId);
-    dispatch(getOneUserByPhone({phoneString: phone}));
-  }, [dispatch, phone, stateChat.historyId]);
+    // console.log('stateChat.historyId', stateChat.historyId);
+    dispatch(getOneUserByPhone({phoneString: senderPhone}));
+  }, [dispatch, senderPhone, stateChat.historyId]);
 
   React.useEffect(() => {
     dispatch(

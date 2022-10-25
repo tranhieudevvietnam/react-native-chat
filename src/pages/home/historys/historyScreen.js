@@ -49,7 +49,7 @@ const HistoryScreen = ({navigation}) => {
           <ItemHistory
             item={item}
             onPress={(historyId, data) => {
-              console.log('ItemHistory', historyId);
+              // console.log('ItemHistory', historyId);
               console.log('ItemHistory', data);
               onTapItem({historyId: historyId, data: data});
             }}

@@ -53,7 +53,7 @@ const getOneUser = async ({phoneString}) => {
     .ref(pathString)
     .child(phoneString)
     .once('value');
-  console.log('getOneUser: ', data.val());
+  // console.log('getOneUser: ', data.val());
   return data.val();
 };
 
@@ -148,6 +148,8 @@ const createHistory = async ({
       time: todayDate.format('hh:mm A'),
       timestamp: todayDate.valueOf(),
     });
+  console.log('xxxxxx- sendMessage - 2: ', deviceTokenString);
+
   sendMessage({
     historyId: data.key,
     fullNameString: fullNameString,

@@ -5,7 +5,7 @@ const sendNotification = async ({
   messageString,
   fullNameString,
 }) => {
-  const data = await fetchPost({
+  await fetchPost({
     urlString: 'https://fcm.googleapis.com/fcm/send',
     bodyObject: {
       to: deviceTokenString,
@@ -14,8 +14,9 @@ const sendNotification = async ({
         body: messageString,
       },
     },
+  }).then(() => {
+    console.log('sendNotification-deviceTokenString', deviceTokenString);
   });
-  console.log('sendNotification', data);
 };
 
 export {sendNotification};

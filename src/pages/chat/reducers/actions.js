@@ -26,7 +26,6 @@ export function sendMessage({
       historyId: historyId,
       deviceTokenString: deviceTokenString,
     });
-    console.log('dataxxxx', dataResult);
     if (dataResult !== null) {
       dispatch(
         getDataHistorySuccess({
@@ -68,6 +67,7 @@ export function getOneUserByPhone({phoneString}) {
     const data = await UserUseCase.getOneUserByPhone({
       phoneString: phoneString,
     });
+    console.log('getOneUserByPhone', data);
     dispatch(getDataDeviceTokenSuccess({data: data.deviceToken}));
   };
 }

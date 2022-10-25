@@ -35,6 +35,7 @@ async function sendMessageChat({
       });
     }
   } else {
+    console.log('xxxxxx- sendMessage - 1: ', deviceTokenString);
     await sendMessage({
       deviceTokenString: deviceTokenString,
       historyId: historyId,

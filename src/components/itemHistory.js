@@ -7,7 +7,6 @@ import {
   ColorTextHint,
   ColorWhile,
 } from '../constants/color';
-import {convertDateTime} from '../utils/mometUtils';
 import Avatar from './avatar';
 import {historyModel} from '../models/historyModel';
 
