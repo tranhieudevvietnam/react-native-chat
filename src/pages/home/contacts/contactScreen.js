@@ -30,7 +30,7 @@ const ContactScreen = ({navigation}) => {
     navigation.push('ChatScreen', {
       fullName: data.fullName,
       phone: data.phone,
-      senderPhone: data.senderPhone,
+      senderPhone: data.senderPhone ?? currentPhone,
       currentPhone: currentPhone,
       historyId: null,
     });
@@ -42,12 +42,14 @@ const ContactScreen = ({navigation}) => {
       setRefreshing(false);
       dispatch(getAllUsers());
     });
-  }, [dispatch]);
+  }, []);
+
   return (
     <View style={styles.containerListView}>
       <FlatList
         data={stateContact.listContacts}
         onRefresh={() => onRefresh()}
+        showsHorizontalScrollIndicator={false}
         refreshing={refreshing}
         renderItem={({item}) => (
           <ItemContact

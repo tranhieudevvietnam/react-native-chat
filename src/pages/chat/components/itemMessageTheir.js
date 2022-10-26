@@ -1,23 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {ColorText, ColorBorder} from '../../../constants/color';
 import Avatar from '../../../components/avatar';
-import {convertDateTime} from '../../../utils/mometUtils';
 import messageModel from '../../../models/messageModel';
 
-const ItemMessageTheir = ({item = messageModel}) => {
+const ItemMessageTheir = ({item = messageModel, onLongPress}) => {
   return (
-    <View style={{marginBottom: 10}}>
+    <TouchableOpacity style={{marginBottom: 10}} onLongPress={onLongPress}>
       <View style={styles.container}>
         <Avatar style={styles.avatar} />
-
         <View style={styles.containerMessage}>
           <Text style={styles.textMessage}>{item.message}</Text>
         </View>
       </View>
       <Text style={styles.textTime}>{item.time}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

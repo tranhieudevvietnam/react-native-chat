@@ -1,6 +1,7 @@
 import {
   FETCHING_DATA,
   FETCHING_DATA_SUCCESS,
+  FETCHING_DATA_INSERT_SUCCESS,
   FETCHING_DATA_HISTORY_SUCCESS,
   FETCHING_DATA_FAILURE,
   FETCHING_DATA_DEVICE_TOKEN_SUCCESS,
@@ -25,8 +26,26 @@ function dataReducer(state = initialState, action) {
         listMessages: action.data,
       };
     case FETCHING_DATA_SUCCESS:
-      // console.log(FETCHING_DATA_SUCCESS, action.data.message);
-      state.listMessages.unshift(action.data);
+      // console.log(FETCHING_DATA_SUCCESS, action.data);
+      // state.listMessages.unshift(action.data);
+      return {
+        ...state,
+        isFetching: false,
+        error: false,
+        isFetched: true,
+        listMessages: action.data,
+      };
+    case FETCHING_DATA_INSERT_SUCCESS:
+      // console.log(FETCHING_DATA_INSERT_SUCCESS, action.data);
+      try {
+        if (
+          state.listMessages.filter(
+            value => Object.keys(value)[0] === Object.keys(action.data)[0],
+          ).length === 0
+        ) {
+          state.listMessages.unshift(action.data);
+        }
+      } catch (error) {}
       return {
         ...state,
         isFetching: false,

@@ -45,6 +45,7 @@ const HistoryScreen = ({navigation}) => {
         data={stateHistory.listData}
         onRefresh={() => onRefresh()}
         refreshing={refreshing}
+        showsHorizontalScrollIndicator={false}
         renderItem={({item}) => (
           <ItemHistory
             item={item}

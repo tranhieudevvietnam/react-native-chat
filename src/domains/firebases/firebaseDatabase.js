@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import firebase from './firebaseConfig';
 // import Moment from 'moment';
 import {
@@ -10,24 +11,55 @@ import {sendNotification} from '../services/messageService';
 
 const onMessages = ({historyId, onUpdateMessage}) => {
   const pathString = TABLE_MESSAGE;
+  // var todayDate = moment();
 
   if (historyId !== undefined) {
     firebase
       .database()
       .ref(pathString)
       .child(historyId)
-      .orderByChild('timestamp')
+      .limitToLast(1)
       .off('child_added');
     firebase
       .database()
       .ref(pathString)
       .child(historyId)
-      .orderByChild('timestamp')
+      .limitToLast(1)
       .on('child_added', snapshot => {
-        // console.log('fff', snapshot.val());
-        onUpdateMessage(snapshot.val());
+        const dataResult = {};
+        dataResult[snapshot.key] = snapshot.val();
+        // console.log('onMessages - dataResult:', dataResult);
+        onUpdateMessage(dataResult);
       });
   }
+};
+
+const getMessageByLimit = async ({index, historyId}) => {
+  const pathString = TABLE_MESSAGE;
+  // var todayDate = moment();
+  console.log('getMessageByLimit - index:', index);
+  // console.log('getMessageByLimit - historyId:', historyId);
+
+  if (historyId !== undefined) {
+    const data = await firebase
+      .database()
+      .ref(pathString)
+      .child(historyId)
+      // .limitToLast(index)
+      .once('value');
+
+    // console.log('getMessageByLimit', Object.values(data.val()));
+    const listValues = Object.values(data.val());
+    const listKeys = Object.keys(data.val());
+    let listResults = [];
+    listKeys.forEach((value, index) => {
+      const objectTemp = {};
+      objectTemp[value] = listValues[index];
+      listResults.unshift(objectTemp);
+    });
+    return listResults;
+  }
+  return [];
 };
 
 const createUser = async ({fullNameString, phoneString, deviceTokenString}) => {
@@ -53,17 +85,16 @@ const getOneUser = async ({phoneString}) => {
     .ref(pathString)
     .child(phoneString)
     .once('value');
-  // console.log('getOneUser: ', data.val());
+  // console.log('getOneUser: ' + phoneString, data.val());
   return data.val();
 };
 
 const getAllUser = async ({currentPhone}) => {
   const pathString = TABLE_USER;
-  console.log('currentPhone', currentPhone);
   const data = await firebase
     .database()
     .ref(pathString)
-    .orderByChild('phone')
+    // .orderByChild('phone')
     .once('value');
   const listData = Object.values(data.val());
   const listUsers = [];
@@ -123,21 +154,6 @@ const createHistory = async ({
 }) => {
   var todayDate = moment();
 
-  const dataHistoryCurrent = await firebase
-    .database()
-    .ref(pathString)
-    .child(senderPhoneString)
-    .child(phoneString)
-    .once('value');
-  console.log('dataHistoryCurrent', dataHistoryCurrent.val());
-  const dataHistoryCurrent2 = await firebase
-    .database()
-    .ref(pathString)
-    .child(phoneString)
-    .child(senderPhoneString)
-    .once('value');
-  console.log('dataHistoryCurrent2', dataHistoryCurrent2.val());
-
   const pathString = TABLE_HISTORY;
   const data = await firebase
     .database()
@@ -153,7 +169,7 @@ const createHistory = async ({
       time: todayDate.format('hh:mm A'),
       timestamp: todayDate.valueOf(),
     });
-  console.log('xxxxxx- sendMessage - 2: ', deviceTokenString);
+  console.log('xxxxxx- sendMessage - 2: ', data.key);
 
   sendMessage({
     historyId: data.key,
@@ -237,4 +253,5 @@ export {
   onMessages,
   getOneHistoryByPhone,
   getAllHistory,
+  getMessageByLimit,
 };

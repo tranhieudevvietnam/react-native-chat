@@ -4,6 +4,7 @@ import {
   createHistory,
   getOneHistoryByPhone,
   getAllHistory,
+  getMessageByLimit,
 } from '../firebases/firebaseDatabase';
 import {TABLE_MESSAGE} from '../../constants/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,16 +27,16 @@ async function sendMessageChat({
     });
     if (dataHistory === undefined || dataHistory === null) {
       historyIdResult = historyId;
-      createHistory({
+      return await createHistory({
         fullNameString: fullNameString,
         senderPhoneString: senderPhoneString,
         senderFullName: senderFullName,
         phoneString: phoneString,
         contentString: messageString,
+        deviceTokenString: deviceTokenString,
       });
     }
   } else {
-    console.log('xxxxxx- sendMessage - 1: ', deviceTokenString);
     await sendMessage({
       deviceTokenString: deviceTokenString,
       historyId: historyId,
@@ -46,6 +47,7 @@ async function sendMessageChat({
       senderFullName: senderFullName,
     });
   }
+
   return historyIdResult;
 }
 
@@ -72,5 +74,15 @@ async function getAllHistories() {
   const dataHistory = await getAllHistory({currentPhone: currentPhone});
   return dataHistory;
 }
+async function getAllMessageByLimit({index, historyId}) {
+  const data = await getMessageByLimit({index: index, historyId});
+  return data;
+}
 
-export default {sendMessageChat, onMessageChat, getOneHistory, getAllHistories};
+export default {
+  sendMessageChat,
+  onMessageChat,
+  getOneHistory,
+  getAllHistories,
+  getAllMessageByLimit,
+};

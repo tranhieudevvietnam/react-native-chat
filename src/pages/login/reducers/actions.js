@@ -38,7 +38,6 @@ export function createUser({fullName = '', phone = ''}) {
         throw error;
       }
     } else {
-      console.log('xxxxxPhone', phone);
       dispatch(
         getDataFailure({messageErrorString: 'Kiểm tra lại thông tin username'}),
       );

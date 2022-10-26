@@ -1,5 +1,6 @@
 import {
   getDataSuccess,
+  getDataInsertSuccess,
   getDataHistorySuccess,
   getData,
   getDataDeviceTokenSuccess,
@@ -55,12 +56,25 @@ export function onMessages({phoneString, senderPhoneString}) {
       MessageUseCase.onMessageChat({
         historyId: historyId,
         onMessageChange: data => {
-          dispatch(getDataSuccess({data: data}));
+          dispatch(getDataInsertSuccess({data: data}));
         },
       });
     }
   };
 }
+
+export function getAllMessages({index, historyId}) {
+  return async dispatch => {
+    dispatch(getData());
+    const data = await MessageUseCase.getAllMessageByLimit({
+      index: index,
+      historyId: historyId,
+    });
+    dispatch(getDataSuccess({data: data}));
+    // console.log('getOneUserByPhone', data);
+  };
+}
+
 export function getOneUserByPhone({phoneString}) {
   return async dispatch => {
     dispatch(getData());

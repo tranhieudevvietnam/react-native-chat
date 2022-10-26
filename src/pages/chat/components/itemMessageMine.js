@@ -1,12 +1,12 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {ColorMain, ColorText, ColorWhile} from '../../../constants/color';
 import Avatar from '../../../components/avatar';
 import messageModel from '../../../models/messageModel';
 
-const ItemMessageMine = ({item = messageModel}) => {
+const ItemMessageMine = ({item = messageModel, onLongPress}) => {
   return (
-    <View>
+    <TouchableOpacity onLongPress={onLongPress}>
       <View style={styles.container}>
         <View style={styles.containerMessage}>
           <Text style={styles.textMessage}>{item.message}</Text>
@@ -15,7 +15,7 @@ const ItemMessageMine = ({item = messageModel}) => {
         <Avatar style={styles.avatar} />
       </View>
       <Text style={styles.textTime}>{item.time}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

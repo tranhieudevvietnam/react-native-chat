@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   FlatList,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import AppBar from '../../components/appBar';
@@ -17,17 +18,37 @@ import ItemMessageTheir from './components/itemMessageTheir';
 import InputMessage from './components/inputMessage';
 import ViewCustom from '../../components/viewCustom';
 import {useSelector, useDispatch} from 'react-redux';
-import {onMessages, getOneUserByPhone} from './reducers/actions';
+import {
+  onMessages,
+  getOneUserByPhone,
+  getAllMessages,
+} from './reducers/actions';
 import ItemMessageMine from './components/itemMessageMine';
+import Loading from '../../components/loading';
 
 const ChatScreen = ({navigation, route}) => {
   const {fullName, phone, senderPhone, currentPhone, historyId} = route.params;
   const stateChat = useSelector(state => state.chatReducer);
   const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const refContainer = React.useRef();
 
   const [keyboardStatus, setKeyboardStatus] = React.useState(undefined);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+      setRefreshing(false);
+      // setIndexCurrent(indexCurrent + 10);
+      // dispatch(
+      //   getAllMessages({
+      //     index: indexCurrent + 10,
+      //     historyId: historyId ?? stateChat.historyId,
+      //   }),
+      // );
+    });
+  }, []);
 
   React.useEffect(() => {
     const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
@@ -47,9 +68,6 @@ const ChatScreen = ({navigation, route}) => {
 
   React.useEffect(() => {
     if (stateChat.listMessages.length > 0) {
-      // const count = stateChat.listMessages.length - 1;
-      // console.log('stateChat.listMessages: ', stateChat.listMessages.length);
-      // console.log('countScroll: ', countScroll);
       refContainer.current.scrollToIndex({
         animated: true,
         index: 0,
@@ -58,9 +76,8 @@ const ChatScreen = ({navigation, route}) => {
   }, [stateChat, keyboardStatus]);
 
   React.useEffect(() => {
-    // console.log('stateChat.historyId', stateChat.historyId);
-    dispatch(getOneUserByPhone({phoneString: senderPhone}));
-  }, [dispatch, senderPhone, stateChat.historyId]);
+    dispatch(getOneUserByPhone({phoneString: phone}));
+  }, []);
 
   React.useEffect(() => {
     dispatch(
@@ -69,7 +86,14 @@ const ChatScreen = ({navigation, route}) => {
         senderPhoneString: senderPhone ?? currentPhone,
       }),
     );
-  }, [dispatch, phone, currentPhone, senderPhone, stateChat.deviceToken]);
+  }, [stateChat.historyId]);
+
+  React.useEffect(() => {
+    // console.log('stateChat.historyId', stateChat.historyId);
+    dispatch(
+      getAllMessages({index: 10, historyId: historyId ?? stateChat.historyId}),
+    );
+  }, [stateChat.historyId]);
 
   return (
     <ViewCustom
@@ -93,12 +117,51 @@ const ChatScreen = ({navigation, route}) => {
             </View>
           </AppBar>
           <SafeAreaView style={{flex: 1}}>
+            <Loading isFetching={refreshing} />
+
+            {/* <ScrollView>
+              {stateChat.listMessages.forEach(item => {
+                if (item !== undefined) {
+                  // console.log('itemChat: ', item);
+                  // console.log('itemChat: ', Object.keys(item)[0]);
+                  const data = item[Object.keys(item)[0]];
+                  if (data.senderPhone === currentPhone) {
+                    return (
+                      <ItemMessageMine
+                        item={data}
+                        onLongPress={() => {
+                          console.log('onLongPress', Object.keys(item)[0]);
+                        }}
+                      />
+                    );
+                  } else {
+                    return (
+                      <ItemMessageTheir
+                        item={data}
+                        onLongPress={() => {
+                          console.log('onLongPress', Object.keys(item)[0]);
+                        }}
+                      />
+                    );
+                  }
+                }
+              })}
+            </ScrollView> */}
             <FlatList
               style={{flex: 1, paddingHorizontal: 10, marginBottom: 30}}
               ref={refContainer}
               inverted={true}
+              showsHorizontalScrollIndicator={false}
               data={stateChat.listMessages}
               keyExtractor={(item, index) => index.toString()}
+              onEndReached={() => {
+                console.log('end');
+                onRefresh();
+              }}
+              // onScrollEndDrag={() => {
+              //   console.log('end');
+              //   onRefresh();
+              // }}
               onScrollToIndexFailed={info => {
                 const wait = new Promise(resolve => setTimeout(resolve, 500));
                 wait.then(() => {
@@ -110,10 +173,27 @@ const ChatScreen = ({navigation, route}) => {
               }}
               renderItem={({item}) => {
                 if (item !== undefined) {
-                  if (item.senderPhone === currentPhone) {
-                    return <ItemMessageMine item={item} />;
+                  // console.log('itemChat: ', item);
+                  // console.log('itemChat: ', Object.keys(item)[0]);
+                  const data = item[Object.keys(item)[0]];
+                  if (data.senderPhone === currentPhone) {
+                    return (
+                      <ItemMessageMine
+                        item={data}
+                        onLongPress={() => {
+                          console.log('onLongPress', Object.keys(item)[0]);
+                        }}
+                      />
+                    );
                   } else {
-                    return <ItemMessageTheir item={item} />;
+                    return (
+                      <ItemMessageTheir
+                        item={data}
+                        onLongPress={() => {
+                          console.log('onLongPress', Object.keys(item)[0]);
+                        }}
+                      />
+                    );
                   }
                 }
               }}

@@ -15,7 +15,7 @@ const sendNotification = async ({
       },
     },
   }).then(() => {
-    console.log('sendNotification-deviceTokenString', deviceTokenString);
+    // console.log('sendNotification-deviceTokenString', deviceTokenString);
   });
 };
 
