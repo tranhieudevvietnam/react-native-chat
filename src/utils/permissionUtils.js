@@ -19,6 +19,7 @@ const requestCameraPermission = async () => {
   try {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATION,
       {
         title: 'Cool Photo App Camera Permission',
         message:

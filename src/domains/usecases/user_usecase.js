@@ -7,17 +7,20 @@ import {
 
 async function addUserToChat({fullNameString, phoneString}) {
   await AsyncStorage.setItem('@phone', phoneString);
+
   // const resultOneUser = await getOneUser({
   //   phoneString: phoneString,
   // });
   // if (resultOneUser === null) {
   const deviceTokenString = await AsyncStorage.getItem('@deviceToken');
   await AsyncStorage.setItem('@fullName', fullNameString);
+
   await createUser({
     fullNameString: fullNameString,
     phoneString: phoneString,
     deviceTokenString: deviceTokenString,
   });
+
   // } else {
   //   await AsyncStorage.setItem('@fullName', fullNameString);
   // }

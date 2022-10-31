@@ -17,7 +17,6 @@ target 'chat_firebase' do
   # pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   # pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
 
-
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
   # set this and toggle '$RNFirebaseAsStaticFramework' above to test static frameworks)
   use_modular_headers!

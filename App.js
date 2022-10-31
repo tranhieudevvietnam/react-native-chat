@@ -6,8 +6,8 @@ import LoginScreen from './src/pages/login/loginScreen';
 import ChatScreen from './src/pages/chat/chatScreen';
 import {getDeviceToken} from './src/domains/firebases/firebaseMessage';
 import {Provider} from 'react-redux';
-// import {storeLogin} from './src/pages/login/reducers/configureStore';
 import {store} from './src/reducers/configureStore';
+import CustomDrawer from './src/pages/navigation/customDrawer';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +32,7 @@ function App() {
             component={HomeScreen}
             options={{headerShown: false}}
           />
+          {/* <Stack.Screen name="CustomDrawer" component={CustomDrawer} /> */}
           <Stack.Screen
             name="LoginScreen"
             component={LoginScreen}

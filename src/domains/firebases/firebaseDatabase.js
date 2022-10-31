@@ -37,7 +37,7 @@ const onMessages = ({historyId, onUpdateMessage}) => {
 const getMessageByLimit = async ({index, historyId}) => {
   const pathString = TABLE_MESSAGE;
   // var todayDate = moment();
-  console.log('getMessageByLimit - index:', index);
+  // console.log('getMessageByLimit - index:', index);
   // console.log('getMessageByLimit - historyId:', historyId);
 
   if (historyId !== undefined) {
@@ -64,11 +64,13 @@ const getMessageByLimit = async ({index, historyId}) => {
 
 const createUser = async ({fullNameString, phoneString, deviceTokenString}) => {
   const pathString = TABLE_USER;
+
   await firebase.database().ref(pathString).child(phoneString).set({
     phone: phoneString,
     fullName: fullNameString,
     deviceToken: deviceTokenString,
   });
+
   const data = await firebase
     .database()
     .ref(pathString)

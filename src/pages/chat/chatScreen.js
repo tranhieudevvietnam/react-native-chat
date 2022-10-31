@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   FlatList,
   Keyboard,
-  ScrollView,
 } from 'react-native';
 import React from 'react';
 import AppBar from '../../components/appBar';
