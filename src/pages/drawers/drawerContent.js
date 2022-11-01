@@ -1,5 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import Avatar from '../../components/avatar';
@@ -39,14 +45,31 @@ const DrawerContent = () => {
           <Text style={{color: ColorText, marginTop: 5}}>{user.phone}</Text>
         </View>
       </View>
+      <View style={{flex: 1}} />
+      <TouchableOpacity
+        onPress={() => {
+          console.log('logout');
+        }}>
+        <View
+          style={{
+            borderRadius: 20,
+            borderColor: ColorMain,
+            padding: 10,
+            borderWidth: 1,
+            alignItems: 'center',
+          }}>
+          <Text style={{color: ColorMain}}>Đăng xuất</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 20,
     paddingTop: STATUSBAR_HEIGHT + 30,
+    paddingBottom: '30%',
     height: '100%',
     width: '60%',
     backgroundColor: 'white',
