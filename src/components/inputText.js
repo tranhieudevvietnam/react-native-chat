@@ -2,7 +2,7 @@ import {TextInput, StyleSheet} from 'react-native';
 import React from 'react';
 import {
   ColorBorder,
-  ColorWhile,
+  ColorWhite,
   ColorTextHint,
   ColorText,
 } from '../constants/color';
@@ -23,7 +23,7 @@ const InputTextComponent = ({value, onChange, placeholder, keyboardType}) => {
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    backgroundColor: ColorWhile,
+    backgroundColor: ColorWhite,
     borderRadius: 20,
     marginVertical: 10,
     borderColor: ColorBorder,

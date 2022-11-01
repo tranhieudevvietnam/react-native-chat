@@ -1,9 +1,12 @@
-import {View, FlatList, StyleSheet} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {View, FlatList, StyleSheet, Text} from 'react-native';
 import React from 'react';
 import ItemHistory from '../../../components/itemHistory';
 import {useSelector, useDispatch} from 'react-redux';
 import {getAllHistory} from './reducers/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ColorBorder} from '../../../constants/color';
+import {ColorMain} from '../../../constants/color';
 
 const HistoryScreen = ({navigation}) => {
   const stateHistory = useSelector(state => state.historyReducer);

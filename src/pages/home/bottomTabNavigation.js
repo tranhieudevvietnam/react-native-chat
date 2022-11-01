@@ -3,7 +3,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HistoryScreen from './historys/historyScreen';
 import ContactScreen from './contacts/contactScreen';
-import {ColorMain, ColorWhile} from '../../constants/color';
+import {ColorMain, ColorWhite} from '../../constants/color';
 import {TouchableOpacity, View, Text} from 'react-native';
 import {ColorTextHint} from '../../constants/color';
 const Tab = createBottomTabNavigator();
@@ -13,8 +13,7 @@ function MyTabBar({state, descriptors, navigation}) {
     <View
       style={{
         flexDirection: 'row',
-        backgroundColor: ColorWhile,
-        // height: 80,
+        backgroundColor: 'white',
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
@@ -59,12 +58,12 @@ function MyTabBar({state, descriptors, navigation}) {
             style={{
               flex: 1,
               alignItems: 'center',
-              backgroundColor: isFocused ? ColorMain : ColorWhile,
+              backgroundColor: isFocused ? ColorMain : ColorWhite,
               borderRadius: 20,
               margin: 10,
               paddingVertical: 15,
             }}>
-            <Text style={{color: isFocused ? ColorWhile : ColorTextHint}}>
+            <Text style={{color: isFocused ? ColorWhite : ColorTextHint}}>
               {label}
             </Text>
           </TouchableOpacity>

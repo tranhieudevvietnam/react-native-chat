@@ -12,7 +12,7 @@ import {
 import React from 'react';
 import AppBar from '../../components/appBar';
 import Avatar from '../../components/avatar';
-import {ColorWhile} from '../../constants/color';
+import {ColorWhite} from '../../constants/color';
 import ItemMessageTheir from './components/itemMessageTheir';
 import InputMessage from './components/inputMessage';
 import ViewCustom from '../../components/viewCustom';
@@ -95,30 +95,29 @@ const ChatScreen = ({navigation, route}) => {
   }, [stateChat.historyId]);
 
   return (
-    <ViewCustom
-      child={
-        <View style={styles.container}>
-          <AppBar>
-            <View style={styles.containerAppBar}>
-              <TouchableOpacity
-                style={styles.touchButtonBack}
-                onPress={() => navigation.goBack()}>
-                <Image
-                  source={require('../../../assets/icons/icon_back.png')}
-                  style={styles.iconBack}
-                />
-              </TouchableOpacity>
-              <Avatar style={{marginRight: 10, width: 42, height: 42}} />
-              <View>
-                <Text style={styles.textTitle}>{fullName}</Text>
-                <Text style={styles.textSub}>{phone}</Text>
-              </View>
+    <ViewCustom>
+      <View style={styles.container}>
+        <AppBar>
+          <View style={styles.containerAppBar}>
+            <TouchableOpacity
+              style={styles.touchButtonBack}
+              onPress={() => navigation.goBack()}>
+              <Image
+                source={require('../../../assets/icons/icon_back.png')}
+                style={styles.iconBack}
+              />
+            </TouchableOpacity>
+            <Avatar style={{marginRight: 10, width: 42, height: 42}} />
+            <View>
+              <Text style={styles.textTitle}>{fullName}</Text>
+              <Text style={styles.textSub}>{phone}</Text>
             </View>
-          </AppBar>
-          <SafeAreaView style={{flex: 1}}>
-            <Loading isFetching={refreshing} />
+          </View>
+        </AppBar>
+        <SafeAreaView style={{flex: 1}}>
+          {/* <Loading isFetching={refreshing} /> */}
 
-            {/* <ScrollView>
+          {/* <ScrollView>
               {stateChat.listMessages.forEach(item => {
                 if (item !== undefined) {
                   // console.log('itemChat: ', item);
@@ -146,70 +145,73 @@ const ChatScreen = ({navigation, route}) => {
                 }
               })}
             </ScrollView> */}
-            <FlatList
-              style={{flex: 1, paddingHorizontal: 10, marginBottom: 30}}
-              ref={refContainer}
-              inverted={true}
-              showsHorizontalScrollIndicator={false}
-              data={stateChat.listMessages}
-              keyExtractor={(item, index) => index.toString()}
-              onEndReached={() => {
-                console.log('end');
-                onRefresh();
-              }}
-              // onScrollEndDrag={() => {
-              //   console.log('end');
-              //   onRefresh();
-              // }}
-              onScrollToIndexFailed={info => {
-                const wait = new Promise(resolve => setTimeout(resolve, 500));
-                wait.then(() => {
-                  refContainer.current?.scrollToIndex({
-                    index: info.index,
-                    animated: true / false,
-                  });
+          <FlatList
+            style={{
+              flex: 1,
+              paddingHorizontal: 10,
+              marginBottom: 10,
+              paddingBottom: 10,
+            }}
+            ref={refContainer}
+            inverted={true}
+            showsHorizontalScrollIndicator={false}
+            data={stateChat.listMessages}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={() => {
+              onRefresh();
+            }}
+            // onScrollEndDrag={() => {
+            //   console.log('end');
+            //   onRefresh();
+            // }}
+            onScrollToIndexFailed={info => {
+              const wait = new Promise(resolve => setTimeout(resolve, 500));
+              wait.then(() => {
+                refContainer.current?.scrollToIndex({
+                  index: info.index,
+                  animated: true / false,
                 });
-              }}
-              renderItem={({item}) => {
-                if (item !== undefined) {
-                  // console.log('itemChat: ', item);
-                  // console.log('itemChat: ', Object.keys(item)[0]);
-                  const data = item[Object.keys(item)[0]];
-                  if (data.senderPhone === currentPhone) {
-                    return (
-                      <ItemMessageMine
-                        item={data}
-                        onLongPress={() => {
-                          console.log('onLongPress', Object.keys(item)[0]);
-                        }}
-                      />
-                    );
-                  } else {
-                    return (
-                      <ItemMessageTheir
-                        item={data}
-                        onLongPress={() => {
-                          console.log('onLongPress', Object.keys(item)[0]);
-                        }}
-                      />
-                    );
-                  }
+              });
+            }}
+            renderItem={({item}) => {
+              if (item !== undefined) {
+                // console.log('itemChat: ', item);
+                // console.log('itemChat: ', Object.keys(item)[0]);
+                const data = item[Object.keys(item)[0]];
+                if (data.senderPhone === currentPhone) {
+                  return (
+                    <ItemMessageMine
+                      item={data}
+                      onLongPress={() => {
+                        console.log('onLongPress', Object.keys(item)[0]);
+                      }}
+                    />
+                  );
+                } else {
+                  return (
+                    <ItemMessageTheir
+                      item={data}
+                      onLongPress={() => {
+                        console.log('onLongPress', Object.keys(item)[0]);
+                      }}
+                    />
+                  );
                 }
-              }}
-            />
+              }
+            }}
+          />
 
-            {/* <ItemMessageTheir />
+          {/* <ItemMessageTheir />
           <ItemMessageMine /> */}
-            <InputMessage
-              fullNameString={fullName}
-              phoneString={phone}
-              historyId={historyId ?? stateChat.historyId}
-              deviceTokenString={stateChat.deviceToken}
-            />
-          </SafeAreaView>
-        </View>
-      }
-    />
+          <InputMessage
+            fullNameString={fullName}
+            phoneString={phone}
+            historyId={historyId ?? stateChat.historyId}
+            deviceTokenString={stateChat.deviceToken}
+          />
+        </SafeAreaView>
+      </View>
+    </ViewCustom>
   );
 };
 
@@ -233,11 +235,11 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     fontSize: 18,
-    color: ColorWhile,
+    color: ColorWhite,
     fontWeight: 'bold',
   },
   textSub: {
-    color: ColorWhile,
+    color: ColorWhite,
     opacity: 0.5,
   },
 });

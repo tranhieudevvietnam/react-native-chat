@@ -57,6 +57,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
- 
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền truy cập này, để cập nhật thông tin hình ảnh</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) cần quyền truy cập này, để cập nhật thông tin hình ảnh</string>
+	<key>NSCameraUsageDescription</key>
+    <string>$(PRODUCT_NAME) cần quyền truy cập máy ảnh của bạn để cập nhật thông tin hình ảnh</string>
+
+	<key>UIAppFonts</key>
+	<array>
+		<string>MaterialIcons.ttf</string>
+	</array>
 </dict>
 </plist>

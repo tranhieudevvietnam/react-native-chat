@@ -5,7 +5,7 @@ import {
   ColorMain,
   ColorText,
   ColorTextHint,
-  ColorWhile,
+  ColorWhite,
 } from '../constants/color';
 import Avatar from './avatar';
 import userModel from '../models/userModel';
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textTime: {
-    color: ColorWhile,
+    color: ColorWhite,
     fontSize: 12,
     fontWeight: 'bold',
   },

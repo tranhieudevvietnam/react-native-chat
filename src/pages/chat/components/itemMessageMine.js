@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {ColorMain, ColorText, ColorWhile} from '../../../constants/color';
+import {ColorMain, ColorText, ColorWhite} from '../../../constants/color';
 import Avatar from '../../../components/avatar';
 import messageModel from '../../../models/messageModel';
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   textMessage: {
-    color: ColorWhile,
+    color: ColorWhite,
     fontSize: 16,
   },
   textTime: {

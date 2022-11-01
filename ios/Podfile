@@ -11,11 +11,11 @@ platform :ios, '11.0'
 target 'chat_firebase' do
 
 
-  # permissions_path = '../node_modules/react-native-permissions/ios'
-  # pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-  # pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
-  # pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
-  # pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+  pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
   # set this and toggle '$RNFirebaseAsStaticFramework' above to test static frameworks)

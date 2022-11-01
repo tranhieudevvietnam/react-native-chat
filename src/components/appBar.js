@@ -10,8 +10,11 @@ const STATUSBAR_HEIGHT = getStatusBarHeight();
 //child is function return widget child
 const AppBar = props => {
   return (
-    <View style={styles.containerAppBar}>
-      <StatusBarCustom backgroundColor="#0000" barStyle="light-content" />
+    <View style={[styles.containerAppBar, props.style]}>
+      <StatusBarCustom
+        backgroundColor="#0000"
+        barStyle={props.showMenu ? 'dark-content' : 'light-content'}
+      />
       {props.children}
     </View>
   );

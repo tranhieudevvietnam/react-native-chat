@@ -6,15 +6,15 @@ import {
 } from 'react-native';
 import React from 'react';
 
-const ViewCustom = ({child}) => {
+const ViewCustom = props => {
   return (
     <KeyboardAvoidingView
       // eslint-disable-next-line react-native/no-inline-styles
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-      {child}
-      {/* </TouchableWithoutFeedback> */}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        {props.children}
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };

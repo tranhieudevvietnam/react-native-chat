@@ -1,6 +1,6 @@
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {ColorMain, ColorWhile} from '../constants/color';
+import {ColorMain, ColorWhite} from '../constants/color';
 
 const ButtonComponent = ({title, onTap, styleButton, styleText}) => {
   return (
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
   },
-  text: {color: ColorWhile, fontWeight: 'bold'},
+  text: {color: ColorWhite, fontWeight: 'bold'},
 });
 
 export default ButtonComponent;
